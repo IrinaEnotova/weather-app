@@ -16,7 +16,8 @@
     "**/*.(js|ts|jsx|tsx)": [
       "npx prettier --write",
       "npx eslint --fix"
-    ]
+    ],
+    "*.{ts,tsx}": "eslint --cache --fix"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
