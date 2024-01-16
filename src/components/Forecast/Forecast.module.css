@@ -1,0 +1,22 @@
+.wrapper {
+  width: 300px;
+  max-width: 300px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: var(--background);
+}
+
+.icon {
+  font-size: 40px;
+}
+
+.temperature,
+.pressure,
+.wind {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
