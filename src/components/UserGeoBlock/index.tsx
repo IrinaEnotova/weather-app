@@ -1,42 +1,13 @@
-import { useEffect, useState } from 'react';
-
 import { BtnAppearance, BtnSize } from 'enums/Btn.enums';
+
+import useDate from 'hooks/useDate';
 
 import Button from 'components/Button';
 
 import styles from './UserGeoBlock.module.css';
 
 export default function UserGeoBlock() {
-  const [position, setPosition] = useState<{
-    latitude: number | null;
-    longitude: number | null;
-  }>({
-    latitude: null,
-    longitude: null,
-  });
-  const [message, setMessage] = useState<string>('');
-  const [date, setDate] = useState<Date | null>(null);
-
-  useEffect(() => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        setPosition({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-      });
-    } else {
-      setMessage('Геолокация не доступна в вашем браузере');
-    }
-  }, []);
-
-  useEffect(() => {
-    const timerId = setInterval(() => setDate(new Date()), 1000);
-
-    return function cleanup() {
-      clearInterval(timerId);
-    };
-  });
+  const { position, date, message } = useDate();
 
   return (
     <>
