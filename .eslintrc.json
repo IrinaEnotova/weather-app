@@ -42,12 +42,47 @@
         "groups": ["builtin", "external", "internal"],
         "pathGroups": [
           {
+            "pattern": "enums/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "interfaces/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "src/types",
+            "group": "internal",
+            "position": "after"
+          },
+          {
             "pattern": "utils/**",
             "group": "internal",
             "position": "after"
           },
           {
+            "pattern": "locales/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "context/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "services/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
             "pattern": "hooks/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "common/**",
             "group": "internal",
             "position": "after"
           },
@@ -62,7 +97,17 @@
             "position": "after"
           },
           {
-            "pattern": "**/*.css",
+            "pattern": "assets/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "./utils/**",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "**/*.scss",
             "group": "unknown",
             "position": "after"
           }

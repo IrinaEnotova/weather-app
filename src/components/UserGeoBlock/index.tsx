@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 
+import { BtnAppearance, BtnSize } from 'enums/Btn.enums';
+
+import Button from 'components/Button';
+
 import styles from './UserGeoBlock.module.css';
-import Button from '../components/Button';
-import { BtnAppearance, BtnSize } from '../enums/Btn.enums';
 
 export default function UserGeoBlock() {
   const [position, setPosition] = useState<{

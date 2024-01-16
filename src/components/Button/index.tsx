@@ -1,8 +1,10 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
+import { BtnAppearance, BtnSize } from 'enums/Btn.enums';
+
+import cls from 'utils/classnames';
+
 import styles from './Button.module.css';
-import { BtnAppearance, BtnSize } from '../../enums/Btn.enums';
-import cls from '../../utils/classnames';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
