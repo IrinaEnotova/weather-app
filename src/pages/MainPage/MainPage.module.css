@@ -10,4 +10,11 @@
   align-items: center;
   justify-content: space-between;
   height: 50vh;
+  gap: 15px;
+}
+
+@media (max-width: 650px) {
+  .currentData {
+    flex-direction: column;
+  }
 }

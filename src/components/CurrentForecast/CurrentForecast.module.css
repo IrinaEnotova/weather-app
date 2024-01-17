@@ -21,3 +21,10 @@
   gap: 10px;
   font-size: 14px;
 }
+
+@media (max-width: 650px) {
+  .wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+}
