@@ -44,8 +44,8 @@ export default function Search({
           <Button onClick={onCitySubmit}>Загрузить</Button>
           {options ? (
             <ul className={styles.optionsList}>
-              {options.map((option) => (
-                <li key={option.lat} className={styles.optionsItem}>
+              {options.map((option, idx) => (
+                <li key={`${option.lat}-${idx}`} className={styles.optionsItem}>
                   <Button
                     appearance={BtnAppearance.Unstylized}
                     onClick={() => onOptionSelect(option)}
