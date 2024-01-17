@@ -1,0 +1,23 @@
+.card {
+  max-width: 260px;
+  min-width: 260px;
+  min-height: 210px;
+  background-color: var(--background);
+  padding: 10px;
+  outline: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+}
+
+.temperature,
+.pressure,
+.wind {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}

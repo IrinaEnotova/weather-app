@@ -1,6 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { CityOption, Forecast } from 'interfaces/API.interfaces';
+import {
+  CityOption,
+  CurrentForecast,
+  Forecast,
+  StepForecast,
+} from 'interfaces/API.interfaces';
 
 import { API_KEY, API_LANGUAGE, CITY_LIMIT } from 'utils/constants';
 
@@ -9,6 +14,8 @@ export default function useForecast() {
   const [options, setOptions] = useState<CityOption[] | null>(null);
   const [city, setCity] = useState<CityOption | null>(null);
   const [forecast, setForecast] = useState<Forecast | null>(null);
+  const [currentForecast, setCurrentForecast] =
+    useState<CurrentForecast | null>(null);
 
   const getSearchOptions = (value: string) => {
     const formattedTerm = value.trim();
@@ -39,14 +46,29 @@ export default function useForecast() {
       .then((data) => {
         const forecastData = {
           ...data.city,
-          list: data.list,
+          list: data.list.filter((item: StepForecast, idx: number) => {
+            if (idx === 0 || idx % 2 === 0) return item;
+          }),
         };
         setForecast(forecastData);
       });
   };
 
+  const getCurrentForecast = (city: CityOption) => {
+    fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&units=metric&lang=${API_LANGUAGE}&appid=${API_KEY}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setCurrentForecast(data);
+      });
+  };
+
   const onCitySubmit = () => {
-    if (city) getForecast(city);
+    if (city) {
+      getForecast(city);
+      getCurrentForecast(city);
+    }
   };
 
   const onOptionSelect = (option: CityOption) => {
@@ -64,6 +86,7 @@ export default function useForecast() {
     term,
     options,
     forecast,
+    currentForecast,
     onInputChange,
     onOptionSelect,
     onCitySubmit,
