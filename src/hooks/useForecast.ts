@@ -16,14 +16,26 @@ export default function useForecast() {
   const [forecast, setForecast] = useState<Forecast | null>(null);
   const [currentForecast, setCurrentForecast] =
     useState<CurrentForecast | null>(null);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getSearchOptions = (value: string) => {
     const formattedTerm = value.trim();
+    setIsError(false);
+    setIsLoading(true);
     fetch(
       `http://api.openweathermap.org/geo/1.0/direct?q=${formattedTerm}&limit=${CITY_LIMIT}&appid=${API_KEY}`
     )
       .then((res) => res.json())
-      .then((data) => setOptions(data));
+      .then((data) => setOptions(data))
+      .catch((err): void => {
+        if (err instanceof Error) {
+          setIsError(true);
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +51,8 @@ export default function useForecast() {
   };
 
   const getForecast = (city: CityOption) => {
+    setIsError(false);
+    setIsLoading(true);
     fetch(
       `https://api.openweathermap.org/data/2.5/forecast?lat=${city.lat}&lon=${city.lon}&units=metric&lang=${API_LANGUAGE}&appid=${API_KEY}`
     )
@@ -51,16 +65,34 @@ export default function useForecast() {
           }),
         };
         setForecast(forecastData);
+      })
+      .catch((err): void => {
+        if (err instanceof Error) {
+          setIsError(true);
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   const getCurrentForecast = (city: CityOption) => {
+    setIsError(false);
+    setIsLoading(true);
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&units=metric&lang=${API_LANGUAGE}&appid=${API_KEY}`
     )
       .then((res) => res.json())
       .then((data) => {
         setCurrentForecast(data);
+      })
+      .catch((err): void => {
+        if (err instanceof Error) {
+          setIsError(true);
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -87,6 +119,8 @@ export default function useForecast() {
     options,
     forecast,
     currentForecast,
+    isError,
+    isLoading,
     onInputChange,
     onOptionSelect,
     onCitySubmit,

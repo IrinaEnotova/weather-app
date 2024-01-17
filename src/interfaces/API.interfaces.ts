@@ -78,3 +78,8 @@ export interface CurrentForecast {
   visibility: number;
   pop: number;
 }
+
+export interface GeoPosition {
+  latitude: number | null;
+  longitude: number | null;
+}

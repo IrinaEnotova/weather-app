@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
+import { GeoPosition } from 'src/interfaces/API.interfaces';
 
 export default function useDate() {
-  const [position, setPosition] = useState<{
-    latitude: number | null;
-    longitude: number | null;
-  }>({
+  const [position, setPosition] = useState<GeoPosition>({
     latitude: null,
     longitude: null,
   });
   const [message, setMessage] = useState<string>('');
-  const [date, setDate] = useState<Date | null>(null);
+  const [date, setDate] = useState<Date>(new Date());
   const [day, setDay] = useState<number>(0);
 
   useEffect(() => {
