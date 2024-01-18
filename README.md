@@ -4,7 +4,7 @@ Web application for viewing weather in different parts of the planet.
 
 ## 🚀 Getting Started
 
-Clone the `weather-app` repository using git:
+Use [deploy](https://weather-app-opencode.netlify.app/) or clone the `weather-app` repository using git:
 
 ```
 git clone https://github.com/IrinaEnotova/weather-app.git
