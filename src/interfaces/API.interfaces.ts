@@ -3,7 +3,7 @@ export interface CityOption {
   lat: number;
   lon: number;
   country: string;
-  local_names: object;
+  local_names: { [key: string]: string };
 }
 
 export interface StepForecast {

@@ -1,4 +1,8 @@
+import { useContext } from 'react';
+
 import { BtnAppearance, BtnSize } from 'enums/Btn.enums';
+
+import { CityContext } from 'context/CityContext';
 
 import useDate from 'hooks/useDate';
 
@@ -8,6 +12,7 @@ import styles from './UserGeoBlock.module.css';
 
 export default function UserGeoBlock() {
   const { position, date, message } = useDate();
+  const { city, setCity } = useContext(CityContext);
 
   return (
     <>
@@ -27,8 +32,14 @@ export default function UserGeoBlock() {
         <p>{message}</p>
         <h4>Прогноз погоды</h4>
         <div className={styles.cityWrapper}>
-          <p>Самара</p>
-          <Button appearance={BtnAppearance.Separate} size={BtnSize.Medium}>
+          <p>{city?.local_names.ru}</p>
+          <Button
+            appearance={BtnAppearance.Separate}
+            size={BtnSize.Medium}
+            onClick={() => {
+              setCity(null);
+            }}
+          >
             Изменить
           </Button>
         </div>

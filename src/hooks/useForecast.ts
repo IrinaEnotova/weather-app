@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import {
   CityOption,
@@ -7,12 +7,21 @@ import {
   StepForecast,
 } from 'interfaces/API.interfaces';
 
-import { API_KEY, API_LANGUAGE, CITY_LIMIT } from 'utils/constants';
+import {
+  API_KEY,
+  API_LANGUAGE,
+  CITY_CURRENT_URL,
+  CITY_LIMIT,
+  CITY_OPTIONS_URL,
+  FORECAST_URL,
+} from 'utils/constants';
+
+import { CityContext } from 'context/CityContext';
 
 export default function useForecast() {
   const [term, setTerm] = useState<string>('');
   const [options, setOptions] = useState<CityOption[] | null>(null);
-  const [city, setCity] = useState<CityOption | null>(null);
+  const { city, setCity } = useContext(CityContext);
   const [forecast, setForecast] = useState<Forecast | null>(null);
   const [currentForecast, setCurrentForecast] =
     useState<CurrentForecast | null>(null);
@@ -24,7 +33,7 @@ export default function useForecast() {
     setIsError(false);
     setIsLoading(true);
     fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${formattedTerm}&limit=${CITY_LIMIT}&appid=${API_KEY}`
+      `${CITY_OPTIONS_URL}?q=${formattedTerm}&limit=${CITY_LIMIT}&appid=${API_KEY}`
     )
       .then((res) => res.json())
       .then((data) => setOptions(data))
@@ -54,7 +63,7 @@ export default function useForecast() {
     setIsError(false);
     setIsLoading(true);
     fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${city.lat}&lon=${city.lon}&units=metric&lang=${API_LANGUAGE}&appid=${API_KEY}`
+      `${CITY_CURRENT_URL}?lat=${city.lat}&lon=${city.lon}&units=metric&lang=${API_LANGUAGE}&appid=${API_KEY}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -80,7 +89,7 @@ export default function useForecast() {
     setIsError(false);
     setIsLoading(true);
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&units=metric&lang=${API_LANGUAGE}&appid=${API_KEY}`
+      `${FORECAST_URL}?lat=${city.lat}&lon=${city.lon}&units=metric&lang=${API_LANGUAGE}&appid=${API_KEY}`
     )
       .then((res) => res.json())
       .then((data) => {

@@ -1,6 +1,11 @@
+import { useContext } from 'react';
+
+import { CityContext } from 'context/CityContext';
+
 import useForecast from 'hooks/useForecast';
 
 import CurrentForecast from 'components/CurrentForecast';
+import Overlay from 'components/Overlay';
 import Search from 'components/Search';
 import Slider from 'components/Slider';
 import UserGeoBlock from 'components/UserGeoBlock';
@@ -13,30 +18,49 @@ export default function MainPage() {
     options,
     forecast,
     currentForecast,
+    isError,
     onInputChange,
     onOptionSelect,
     onCitySubmit,
   } = useForecast();
+  const { city } = useContext(CityContext);
+
+  if (isError) {
+    return (
+      <Overlay>
+        <h2>
+          Что-то пошло не так...
+          <br />
+          Попробуйте позже
+        </h2>
+      </Overlay>
+    );
+  }
+
+  if (
+    forecast &&
+    currentForecast &&
+    (city?.local_names.ru === currentForecast?.name ||
+      city?.local_names.en === currentForecast?.name)
+  ) {
+    return (
+      <div className={styles.content}>
+        <div className={styles.currentData}>
+          <CurrentForecast currentForecast={currentForecast} />
+          <UserGeoBlock />
+        </div>
+        <Slider forecast={forecast} />
+      </div>
+    );
+  }
 
   return (
-    <>
-      {forecast && currentForecast ? (
-        <div className={styles.content}>
-          <div className={styles.currentData}>
-            <CurrentForecast currentForecast={currentForecast} />
-            <UserGeoBlock />
-          </div>
-          <Slider forecast={forecast} />
-        </div>
-      ) : (
-        <Search
-          term={term}
-          options={options}
-          onInputChange={onInputChange}
-          onOptionSelect={onOptionSelect}
-          onCitySubmit={onCitySubmit}
-        />
-      )}
-    </>
+    <Search
+      term={term}
+      options={options}
+      onInputChange={onInputChange}
+      onOptionSelect={onOptionSelect}
+      onCitySubmit={onCitySubmit}
+    />
   );
 }
