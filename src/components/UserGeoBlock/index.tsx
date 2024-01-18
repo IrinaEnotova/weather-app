@@ -1,5 +1,9 @@
 import { useAppDispatch, useAppSelector } from 'src/store';
-import { setCity } from 'src/store/reducers/forecastSlice';
+import {
+  setCity,
+  setCurrentForecast,
+  setForecast,
+} from 'src/store/reducers/forecastSlice';
 
 import { BtnAppearance, BtnSize } from 'enums/Btn.enums';
 
@@ -17,6 +21,13 @@ export default function UserGeoBlock({ clearTerm }: UserGeoBlockType) {
   const { position, date, message } = useDate();
   const { city } = useAppSelector((state) => state.forecastReducer);
   const dispatch = useAppDispatch();
+
+  const changeCityForecast = () => {
+    dispatch(setCity(null));
+    dispatch(setForecast(null));
+    dispatch(setCurrentForecast(null));
+    clearTerm();
+  };
 
   return (
     <>
@@ -40,10 +51,7 @@ export default function UserGeoBlock({ clearTerm }: UserGeoBlockType) {
           <Button
             appearance={BtnAppearance.Separate}
             size={BtnSize.Medium}
-            onClick={() => {
-              dispatch(setCity(null));
-              clearTerm();
-            }}
+            onClick={changeCityForecast}
           >
             Изменить
           </Button>

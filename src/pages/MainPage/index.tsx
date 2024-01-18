@@ -34,12 +34,7 @@ export default function MainPage() {
     );
   }
 
-  if (
-    forecast &&
-    currentForecast &&
-    (city?.local_names.ru === currentForecast?.name ||
-      city?.local_names.en === currentForecast?.name)
-  ) {
+  if (forecast && currentForecast) {
     return (
       <div className={styles.content}>
         <div className={styles.currentData}>
@@ -55,7 +50,6 @@ export default function MainPage() {
     <>
       <Search
         term={term}
-        // options={options}
         onInputChange={onInputChange}
         onOptionSelect={onOptionSelect}
         onCitySubmit={onCitySubmit}
