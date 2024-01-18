@@ -1,8 +1,7 @@
-import { useContext } from 'react';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { setCity } from 'src/store/reducers/forecastSlice';
 
 import { BtnAppearance, BtnSize } from 'enums/Btn.enums';
-
-import { CityContext } from 'context/CityContext';
 
 import useDate from 'hooks/useDate';
 
@@ -16,7 +15,8 @@ type UserGeoBlockType = {
 
 export default function UserGeoBlock({ clearTerm }: UserGeoBlockType) {
   const { position, date, message } = useDate();
-  const { city, setCity } = useContext(CityContext);
+  const { city } = useAppSelector((state) => state.forecastReducer);
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -41,7 +41,7 @@ export default function UserGeoBlock({ clearTerm }: UserGeoBlockType) {
             appearance={BtnAppearance.Separate}
             size={BtnSize.Medium}
             onClick={() => {
-              setCity(null);
+              dispatch(setCity(null));
               clearTerm();
             }}
           >

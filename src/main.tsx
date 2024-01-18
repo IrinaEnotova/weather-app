@@ -1,18 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { setupStore } from 'src/store';
 
 import ErrorBoundary from 'components/ErrorBoundary';
 
 import App from './App.tsx';
 import './index.css';
-import CityContextProvider from './context/CityContext.tsx';
+
+const store = setupStore();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <CityContextProvider>
+      <Provider store={store}>
         <App />
-      </CityContextProvider>
+      </Provider>
     </ErrorBoundary>
   </React.StrictMode>
 );

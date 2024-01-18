@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import { useAppSelector } from 'src/store';
 
 import { BtnAppearance } from 'enums/Btn.enums';
 
@@ -11,7 +12,6 @@ import styles from './Search.module.css';
 
 type SearchProps = {
   term: string;
-  options: CityOption[] | null;
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onOptionSelect: (option: CityOption) => void;
   onCitySubmit: () => void;
@@ -19,11 +19,11 @@ type SearchProps = {
 
 export default function Search({
   term,
-  options,
   onInputChange,
   onOptionSelect,
   onCitySubmit,
 }: SearchProps) {
+  const { options } = useAppSelector((state) => state.forecastReducer);
   return (
     <Overlay>
       <div className={styles.wrapper}>

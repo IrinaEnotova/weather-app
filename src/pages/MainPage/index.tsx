@@ -1,6 +1,5 @@
-import { useContext, useEffect } from 'react';
-
-import { CityContext } from 'context/CityContext';
+import { useEffect } from 'react';
+import { useAppSelector } from 'src/store';
 
 import useForecast from 'hooks/useForecast';
 
@@ -14,19 +13,10 @@ import UserGeoBlock from 'components/UserGeoBlock';
 import styles from './MainPage.module.css';
 
 export default function MainPage() {
-  const {
-    term,
-    options,
-    forecast,
-    currentForecast,
-    isError,
-    isLoading,
-    clearTerm,
-    onInputChange,
-    onOptionSelect,
-    onCitySubmit,
-  } = useForecast();
-  const { city } = useContext(CityContext);
+  const { term, clearTerm, onInputChange, onOptionSelect, onCitySubmit } =
+    useForecast();
+  const { city, forecast, currentForecast, isError, isLoading } =
+    useAppSelector((state) => state.forecastReducer);
 
   useEffect(() => {
     if (city) onCitySubmit();
@@ -53,10 +43,10 @@ export default function MainPage() {
     return (
       <div className={styles.content}>
         <div className={styles.currentData}>
-          <CurrentForecast currentForecast={currentForecast} />
+          <CurrentForecast />
           <UserGeoBlock clearTerm={clearTerm} />
         </div>
-        <Slider forecast={forecast} />
+        <Slider />
       </div>
     );
   }
@@ -65,7 +55,7 @@ export default function MainPage() {
     <>
       <Search
         term={term}
-        options={options}
+        // options={options}
         onInputChange={onInputChange}
         onOptionSelect={onOptionSelect}
         onCitySubmit={onCitySubmit}

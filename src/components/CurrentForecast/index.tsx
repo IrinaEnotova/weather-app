@@ -1,3 +1,5 @@
+import { useAppSelector } from 'src/store';
+
 import { CurrentForecast } from 'interfaces/API.interfaces';
 
 import getDateByTimezone from 'utils/getDateByTimezone';
@@ -11,13 +13,17 @@ import windIcon from 'assets/wind.svg';
 
 import styles from './CurrentForecast.module.css';
 
-type CurrentForecastProps = {
-  currentForecast: CurrentForecast;
-};
+export default function CurrentForecast() {
+  const { currentForecast } = useAppSelector((state) => state.forecastReducer);
 
-export default function CurrentForecast({
-  currentForecast,
-}: CurrentForecastProps) {
+  if (!currentForecast) {
+    return (
+      <div className={styles.wrapper}>
+        <p>Что-то пошло не так...</p>
+      </div>
+    );
+  }
+
   const date = getDateByTimezone(currentForecast);
   const currentIcon = getIcon(currentForecast.weather[0].icon);
 

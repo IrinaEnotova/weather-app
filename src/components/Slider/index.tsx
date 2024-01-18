@@ -1,6 +1,5 @@
 import { useRef } from 'react';
-
-import { Forecast } from 'interfaces/API.interfaces';
+import { useAppSelector } from 'src/store';
 
 import { CARD_WIDTH } from 'utils/constants';
 
@@ -12,12 +11,10 @@ import rightArrow from 'assets/right-arrow.svg';
 import styles from './Slider.module.css';
 import ForecastCard from '../ForecastCard';
 
-type SliderProps = {
-  forecast: Forecast;
-};
-
-export default function Slider({ forecast }: SliderProps) {
+export default function Slider() {
+  const { forecast } = useAppSelector((state) => state.forecastReducer);
   const container = useRef<HTMLDivElement | null>(null);
+
   const onPrev = () => {
     if (container.current) {
       const containerWidth = container.current.scrollWidth;
@@ -55,9 +52,13 @@ export default function Slider({ forecast }: SliderProps) {
           <img src={rightArrow} alt=">" width={20} />
         </Button>
         <div className={styles.container} ref={container}>
-          {forecast.list.map((step, idx) => (
-            <ForecastCard key={step.dt} forecast={forecast} step={idx} />
-          ))}
+          {forecast ? (
+            forecast.list.map((step, idx) => (
+              <ForecastCard key={step.dt} forecast={forecast} step={idx} />
+            ))
+          ) : (
+            <p>Что-то пошло не так...</p>
+          )}
         </div>
       </div>
     </div>

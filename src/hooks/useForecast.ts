@@ -1,11 +1,15 @@
-import { ChangeEvent, useContext, useEffect, useState } from 'react';
-
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'src/store';
 import {
-  CityOption,
-  CurrentForecast,
-  Forecast,
-  StepForecast,
-} from 'interfaces/API.interfaces';
+  setCity,
+  setCurrentForecast,
+  setForecast,
+  setIsError,
+  setIsLoading,
+  setOptions,
+} from 'src/store/reducers/forecastSlice';
+
+import { CityOption, StepForecast } from 'interfaces/API.interfaces';
 
 import {
   API_KEY,
@@ -16,29 +20,22 @@ import {
   FORECAST_URL,
 } from 'utils/constants';
 
-import { CityContext } from 'context/CityContext';
-
 export default function useForecast() {
   const [term, setTerm] = useState<string>('');
-  const [options, setOptions] = useState<CityOption[] | null>(null);
-  const { city, setCity } = useContext(CityContext);
-  const [forecast, setForecast] = useState<Forecast | null>(null);
-  const [currentForecast, setCurrentForecast] =
-    useState<CurrentForecast | null>(null);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const { city } = useAppSelector((state) => state.forecastReducer);
 
   const getSearchOptions = (value: string) => {
     const formattedTerm = value.trim();
-    setIsError(false);
+    dispatch(setIsError(false));
     fetch(
       `${CITY_OPTIONS_URL}?q=${formattedTerm}&limit=${CITY_LIMIT}&appid=${API_KEY}`
     )
       .then((res) => res.json())
-      .then((data) => setOptions(data))
+      .then((data) => dispatch(setOptions(data)))
       .catch((err): void => {
         if (err instanceof Error) {
-          setIsError(true);
+          dispatch(setIsError(true));
         }
       });
   };
@@ -52,7 +49,7 @@ export default function useForecast() {
     setTerm(value);
 
     if (!value) {
-      setOptions(null);
+      dispatch(setOptions(null));
       return;
     }
 
@@ -60,8 +57,8 @@ export default function useForecast() {
   };
 
   const getForecast = (city: CityOption) => {
-    setIsError(false);
-    setIsLoading(true);
+    dispatch(setIsError(false));
+    dispatch(setIsLoading(true));
     fetch(
       `${CITY_CURRENT_URL}?lat=${city.lat}&lon=${city.lon}&units=metric&lang=${API_LANGUAGE}&appid=${API_KEY}`
     )
@@ -73,35 +70,35 @@ export default function useForecast() {
             if (idx === 0 || idx % 2 === 0) return item;
           }),
         };
-        setForecast(forecastData);
+        dispatch(setForecast(forecastData));
       })
       .catch((err): void => {
         if (err instanceof Error) {
-          setIsError(true);
+          dispatch(setIsError(true));
         }
       })
       .finally(() => {
-        setIsLoading(false);
+        dispatch(setIsLoading(false));
       });
   };
 
   const getCurrentForecast = (city: CityOption) => {
-    setIsError(false);
-    setIsLoading(true);
+    dispatch(setIsError(false));
+    dispatch(setIsLoading(true));
     fetch(
       `${FORECAST_URL}?lat=${city.lat}&lon=${city.lon}&units=metric&lang=${API_LANGUAGE}&appid=${API_KEY}`
     )
       .then((res) => res.json())
       .then((data) => {
-        setCurrentForecast(data);
+        dispatch(setCurrentForecast(data));
       })
       .catch((err): void => {
         if (err instanceof Error) {
-          setIsError(true);
+          dispatch(setIsError(true));
         }
       })
       .finally(() => {
-        setIsLoading(false);
+        dispatch(setIsLoading(false));
       });
   };
 
@@ -113,24 +110,20 @@ export default function useForecast() {
   };
 
   const onOptionSelect = (option: CityOption) => {
-    setCity(option);
+    dispatch(setCity(option));
+    localStorage.setItem('city', JSON.stringify(option));
   };
 
   useEffect(() => {
     if (city) {
       setTerm(city.name);
-      setOptions(null);
+      dispatch(setOptions(null));
     }
   }, [city]);
 
   return {
     term,
     clearTerm,
-    options,
-    forecast,
-    currentForecast,
-    isError,
-    isLoading,
     onInputChange,
     onOptionSelect,
     onCitySubmit,
