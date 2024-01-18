@@ -31,7 +31,6 @@ export default function useForecast() {
   const getSearchOptions = (value: string) => {
     const formattedTerm = value.trim();
     setIsError(false);
-    setIsLoading(true);
     fetch(
       `${CITY_OPTIONS_URL}?q=${formattedTerm}&limit=${CITY_LIMIT}&appid=${API_KEY}`
     )
@@ -41,10 +40,11 @@ export default function useForecast() {
         if (err instanceof Error) {
           setIsError(true);
         }
-      })
-      .finally(() => {
-        setIsLoading(false);
       });
+  };
+
+  const clearTerm = () => {
+    setTerm('');
   };
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -125,6 +125,7 @@ export default function useForecast() {
 
   return {
     term,
+    clearTerm,
     options,
     forecast,
     currentForecast,

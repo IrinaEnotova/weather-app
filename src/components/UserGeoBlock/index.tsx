@@ -10,7 +10,11 @@ import Button from 'components/Button';
 
 import styles from './UserGeoBlock.module.css';
 
-export default function UserGeoBlock() {
+type UserGeoBlockType = {
+  clearTerm: () => void;
+};
+
+export default function UserGeoBlock({ clearTerm }: UserGeoBlockType) {
   const { position, date, message } = useDate();
   const { city, setCity } = useContext(CityContext);
 
@@ -38,6 +42,7 @@ export default function UserGeoBlock() {
             size={BtnSize.Medium}
             onClick={() => {
               setCity(null);
+              clearTerm();
             }}
           >
             Изменить

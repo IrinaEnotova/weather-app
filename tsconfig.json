@@ -25,7 +25,6 @@
       "interfaces/*": ["./src/interfaces/*"],
       "assets/*": ["./src/assets/*"],
       "constants/*": ["./src/constants/*"],
-      "locales/*": ["./src/locales/*"],
       "context/*": ["./src/context/*"]
     },
 

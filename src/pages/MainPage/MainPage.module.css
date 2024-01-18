@@ -14,6 +14,10 @@
   gap: 15px;
 }
 
+.errorMessage {
+  text-align: center;
+}
+
 @media (max-width: 650px) {
   .currentData {
     flex-direction: column;

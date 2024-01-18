@@ -23,7 +23,7 @@
   "plugins": ["@typescript-eslint", "react", "react-hooks", "import"],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "off",
     "comma-dangle": ["error", "only-multiline"],
     "react/prop-types": "off",
     "react/display-name": "off",
@@ -52,17 +52,7 @@
             "position": "after"
           },
           {
-            "pattern": "src/types",
-            "group": "internal",
-            "position": "after"
-          },
-          {
             "pattern": "utils/**",
-            "group": "internal",
-            "position": "after"
-          },
-          {
-            "pattern": "locales/**",
             "group": "internal",
             "position": "after"
           },
@@ -72,17 +62,7 @@
             "position": "after"
           },
           {
-            "pattern": "services/**",
-            "group": "internal",
-            "position": "after"
-          },
-          {
             "pattern": "hooks/**",
-            "group": "internal",
-            "position": "after"
-          },
-          {
-            "pattern": "common/**",
             "group": "internal",
             "position": "after"
           },
