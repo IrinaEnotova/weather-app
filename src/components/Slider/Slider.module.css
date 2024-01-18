@@ -61,6 +61,7 @@
     max-width: 260px;
   }
   .wrapper {
+    height: auto;
     justify-self: flex-end;
   }
 }

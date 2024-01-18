@@ -23,9 +23,8 @@ export default function ForecastCard({ forecast, step }: ForecastCardProps) {
 
   return (
     <div className={styles.card}>
-      <p>
-        {getDateString(date)} {getTimeString(date)}
-      </p>
+      <p>{getDateString(date)}</p>
+      <p>{getTimeString(date)}</p>
       <p>
         {cardData.weather[0].description}{' '}
         <span className={styles.icon}>{currentIcon}</span>
